@@ -30,7 +30,9 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
   const querySubreddits = async () => {
     const response = await fetch(
-      `https://www.reddit.com/search.json?q=${redditSearch()}&type=sr&include_over_18=true&limit=10`
+      `https://www.reddit.com/search.json?q=${encodeURI(
+        redditSearch()
+      )}&type=sr&include_over_18=true&limit=10`
     );
 
     const json = await response.json();
