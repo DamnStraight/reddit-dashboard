@@ -12,8 +12,8 @@ function Navbar() {
     <section>
       <SubredditSearchModal
         open={isOpen()}
-        onOpenChange={() => {
-          setIsOpen((prev) => !prev);
+        onOpenChange={(state: boolean) => {
+          setIsOpen(state);
         }}
       />
       <div class="absolute w-full px-4 py-2 bg-red-300 flex items-center space-x-2">
@@ -26,7 +26,10 @@ function Navbar() {
             </div>
           )}
         </For>
-        <div class={`${styles["btn-add-subreddit"]}`} onClick={() => setIsOpen(true)}>
+        <div
+          class={`${styles["btn-add-subreddit"]}`}
+          onClick={() => setIsOpen(true)}
+        >
           +
         </div>
       </div>

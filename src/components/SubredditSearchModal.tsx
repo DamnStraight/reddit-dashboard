@@ -3,8 +3,9 @@ import {
   createEffect,
   createSignal,
   For,
-  JSX, ParentProps,
-  Show
+  JSX,
+  ParentProps,
+  Show,
 } from "solid-js";
 import { Portal } from "solid-js/web";
 
@@ -15,12 +16,13 @@ type ModalProps = {
 } & ParentProps;
 
 function SubredditSearchModal(props: ModalProps): JSX.Element {
-  let searchInput: HTMLInputElement | undefined;
-
   const [redditSearch, setRedditSearch] = createSignal<string>("");
   const [subreddits, setSubreddits] = createSignal<string[]>([]);
 
+  let searchInput: HTMLInputElement | undefined;
+
   createEffect(() => {
+    // When open changes to true, set focus to input
     if (props.open) {
       searchInput?.focus();
     }
@@ -28,14 +30,14 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
   const querySubreddits = async () => {
     const response = await fetch(
-      `https://www.reddit.com/search.json?q=${redditSearch()}&type=sr&include_over_18=true`
+      `https://www.reddit.com/search.json?q=${redditSearch()}&type=sr&include_over_18=true&limit=10`
     );
 
     const json = await response.json();
 
-    const subreddits = json.data.children
-      .slice(0, 10)
-      .map((item: any) => item.data.display_name_prefixed);
+    const subreddits = json.data.children.map(
+      (item: any) => item.data.display_name_prefixed
+    );
 
     setSubreddits(subreddits);
   };
@@ -45,6 +47,12 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
   const onInputChange = (input: string) => {
     setRedditSearch(input);
     debounceInput();
+  };
+
+  const keyHandler = (event: KeyboardEvent) => {
+    if (event.key === "Escape") {
+      props.onOpenChange(false);
+    }
   };
 
   return (
@@ -58,6 +66,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
             onInput={(e) => onInputChange(e.currentTarget.value)}
             placeholder="Search for subreddit"
             onFocusOut={() => props.onOpenChange(false)}
+            onKeyDown={keyHandler}
           />
           <div class="space-y-2">
             <For each={subreddits()}>
