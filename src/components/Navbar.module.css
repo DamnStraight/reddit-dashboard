@@ -1,0 +1,26 @@
+.subreddit-icon {
+  @apply relative
+    h-10 w-10 rounded-full 
+    bg-white text-black
+    flex items-center justify-center
+    cursor-default;
+}
+
+.subreddit-icon-overlay {
+  display: none;
+}
+
+.subreddit-icon:hover .subreddit-icon-overlay {
+  @apply 
+  absolute flex justify-center items-center 
+  w-full h-full 
+  bg-black/70 top-0 left-0 text-white 
+  rounded-full font-bold cursor-pointer;
+}
+
+.btn-add-subreddit {
+  @apply h-10 w-10 rounded-full 
+    bg-white hover:bg-black text-black hover:text-white
+    flex items-center justify-center
+    cursor-pointer;
+}
