@@ -2,7 +2,7 @@ type ResponseBody<T> = {
   kind: string;
   data: {
     after: string;
-    children: Array<T>;
+    children: Array<{ after: string, data: T }>;
   };
 };
 

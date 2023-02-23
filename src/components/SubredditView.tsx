@@ -19,7 +19,7 @@ const fetchPosts = async (subreddit: string) => {
     return [];
   }
 
-  return json.data.children.map(({ data }: any) => ({
+  return json.data.children.map(({ data }) => ({
     title: data.title,
     comments: data["num_comments"],
   }));
