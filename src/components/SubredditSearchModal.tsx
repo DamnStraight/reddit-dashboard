@@ -38,7 +38,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
     const json = await response.json();
 
     const subreddits = json.data.children.map(
-      (item: any) => item.data.display_name_prefixed
+      (item: any) => item.data.display_name
     );
 
     setSubreddits(subreddits);
