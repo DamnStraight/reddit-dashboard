@@ -12,7 +12,7 @@ import { Portal } from "solid-js/web";
 type ModalProps = {
   open: boolean;
   onOpenChange: (state: boolean) => void;
-  onAdd?: () => void;
+  onAdd: (subreddit: string) => void;
 } & ParentProps;
 
 function SubredditSearchModal(props: ModalProps): JSX.Element {
@@ -67,13 +67,19 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
             value={redditSearch()}
             onInput={(e) => onInputChange(e.currentTarget.value)}
             placeholder="Search for subreddit"
-            onFocusOut={() => props.onOpenChange(false)}
+            // onFocusOut={() => props.onOpenChange(false)}
             onKeyDown={keyHandler}
           />
-          <div class="space-y-2">
+          <div class="space-y-2 pt-2:first-child">
             <For each={subreddits()}>
-              {(item) => (
-                <div class="text-lg font-bold px-4 py-2 my-2 rounded-sm bg-slate-200">
+              {(item, index) => (
+                <div
+                  class="text-lg font-bold px-4 py-2 my-2 rounded-md bg-slate-200 hover:bg-slate-300 cursor-pointer"
+                  onClick={() => {
+                    props.onAdd(subreddits()[index()]);
+                    props.onOpenChange(false);
+                  }}
+                >
                   {item}
                 </div>
               )}
