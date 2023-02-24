@@ -7,7 +7,7 @@ type PostCardProps = {
 
 function Post(props: PostCardProps) {
   return (
-    <div class="w-full bg-slate-200 rounded-md shadow-md p-2">
+    <div class="w-full bg-slate-200 rounded-md shadow-md p-2 space-y-2">
       <div class="font-bold">{props.post.title}</div>
       <div class="bg-slate-400">Media here</div>
       <div class="flex flex-row justify-end py-2">
