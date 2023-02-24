@@ -1,11 +1,11 @@
 import { For } from "solid-js";
-import { Award, AwardIcon, Post } from "../types/Reddit";
+import { RedditPost } from "@/types/Reddit";
 
 type PostCardProps = {
-  post: Post;
+  post: RedditPost;
 }
 
-function PostCard(props: PostCardProps) {
+function Post(props: PostCardProps) {
   return (
     <div class="w-full bg-slate-200 rounded-md shadow-md p-2">
       <div class="font-bold">{props.post.title}</div>
@@ -19,4 +19,4 @@ function PostCard(props: PostCardProps) {
   )
 }
 
-export default PostCard;
+export default Post;

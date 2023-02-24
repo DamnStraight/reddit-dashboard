@@ -1,7 +1,7 @@
+import SubredditSearchModal from "@/components/SubredditSearchModal/SubredditSearchModal";
+import { useSubreddits } from "@/context/SubredditProvider";
 import { createSignal, For } from "solid-js";
-import { useSubreddits } from "../context/SubredditProvider";
 import styles from "./Navbar.module.css";
-import SubredditSearchModal from "./SubredditSearchModal";
 
 function Navbar() {
   const [isOpen, setIsOpen] = createSignal<boolean>(false);

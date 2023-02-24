@@ -1,16 +1,18 @@
 import { createResource, createSignal, For } from "solid-js";
-import { Post, PostRequest } from "../types/Reddit";
-import PostCard from "./PostCard";
-import Spinner from "./Spinner";
+import { PostRequest } from "@/types/Reddit";
+import Post from "../Post/Post";
+import Spinner from "../Spinner/Spinner";
 
-type SubredditViewProps = {
+type SubredditLaneProps = {
   subreddit: string;
 };
 
 type SortBy = "hot" | "top" | "new";
 
 const fetchPosts = async (subreddit: string) => {
-  const response = await fetch(`https://www.reddit.com/r/${subreddit}.json?raw_json=1`);
+  const response = await fetch(
+    `https://www.reddit.com/r/${subreddit}.json?raw_json=1`
+  );
   const json: PostRequest = await response.json();
 
   if (!json.data) {
@@ -23,7 +25,7 @@ const fetchPosts = async (subreddit: string) => {
 };
 
 // TODO Add types for reddit fetch and createResource
-function SubredditView(props: SubredditViewProps) {
+function SubredditLane(props: SubredditLaneProps) {
   const [sortBy, setSortBy] = createSignal<SortBy>("hot");
 
   const [posts, { mutate, refetch }] = createResource(
@@ -35,13 +37,9 @@ function SubredditView(props: SubredditViewProps) {
     <div class="h-full min-w-[450px] w-[450px] bg-slate-400 overflow-y-auto space-y-4 p-2">
       <h1>{props.subreddit}</h1>
       {posts.loading && <Spinner />}
-      <For each={posts()}>
-        {(item) => (
-          <PostCard post={item} />
-        )}
-      </For>
+      <For each={posts()}>{(item) => <Post post={item} />}</For>
     </div>
   );
 }
 
-export default SubredditView;
+export default SubredditLane;

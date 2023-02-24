@@ -1,8 +1,8 @@
 import { Component } from "solid-js";
 
-import Navbar from "./components/Navbar";
 import { SubredditProvider } from "./context/SubredditProvider";
-import RedditDeck from "./views/RedditDeck";
+import RedditDeck from "./views/Dashboard/Dashboard";
+import Navbar from "./views/Navbar/Navbar";
 
 const App: Component = () => {
   return (

@@ -6,7 +6,7 @@ type ResponseBody<T> = {
   };
 };
 
-export interface Post {
+export interface RedditPost {
   id: string;
   name: string;
   title: string;
@@ -39,4 +39,4 @@ export interface AwardIcon {
   url: string;
 }
 
-export type PostRequest = ResponseBody<Post>;
+export type PostRequest = ResponseBody<RedditPost>;
