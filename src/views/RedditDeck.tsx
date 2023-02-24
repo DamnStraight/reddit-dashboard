@@ -6,7 +6,7 @@ function RedditDeck() {
   const [subreddits, _] = useSubreddits();
 
   return (
-    <div class="h-[calc(100vh_-_56px)] bg-slate-700 flex flex-row space-x-2">
+    <div class="h-[calc(100vh_-_56px)] bg-slate-700 flex flex-row space-x-2 overflow-x-auto">
       <For each={subreddits()}>
         {(item) => <SubredditView subreddit={item} />}
       </For>

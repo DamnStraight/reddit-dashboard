@@ -1,5 +1,6 @@
 import { createResource, createSignal, For } from "solid-js";
 import { Post, PostRequest } from "../types/Reddit";
+import PostCard from "./PostCard";
 import Spinner from "./Spinner";
 
 type SubredditViewProps = {
@@ -8,11 +9,8 @@ type SubredditViewProps = {
 
 type SortBy = "hot" | "top" | "new";
 
-const shrink = (text: string, limit: number) =>
-  `${text.slice(0, limit + 1)}...`;
-
 const fetchPosts = async (subreddit: string) => {
-  const response = await fetch(`https://www.reddit.com/r/${subreddit}.json`);
+  const response = await fetch(`https://www.reddit.com/r/${subreddit}.json?raw_json=1`);
   const json: PostRequest = await response.json();
 
   if (!json.data) {
@@ -20,8 +18,7 @@ const fetchPosts = async (subreddit: string) => {
   }
 
   return json.data.children.map(({ data }) => ({
-    title: data.title,
-    comments: data["num_comments"],
+    ...data,
   }));
 };
 
@@ -35,16 +32,12 @@ function SubredditView(props: SubredditViewProps) {
   );
 
   return (
-    <div class="h-full w-[450px] bg-slate-200 overflow-y-auto space-y-4 p-2">
+    <div class="h-full min-w-[450px] w-[450px] bg-slate-400 overflow-y-auto space-y-4 p-2">
       <h1>{props.subreddit}</h1>
       {posts.loading && <Spinner />}
       <For each={posts()}>
-        {(item: any) => (
-          <div class="w-full p-2 shadow-sm bg-slate-400 rounded-md">
-            {shrink(item.title, 50)}
-            <br />
-            {item.comments}
-          </div>
+        {(item) => (
+          <PostCard post={item} />
         )}
       </For>
     </div>

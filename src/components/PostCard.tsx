@@ -1,4 +1,5 @@
-import { Post } from "../types/Reddit";
+import { For } from "solid-js";
+import { Award, AwardIcon, Post } from "../types/Reddit";
 
 type PostCardProps = {
   post: Post;
@@ -6,8 +7,14 @@ type PostCardProps = {
 
 function PostCard(props: PostCardProps) {
   return (
-    <div class="w-full bg-slate-200 rounded-md shadow-md">
-      temp
+    <div class="w-full bg-slate-200 rounded-md shadow-md p-2">
+      <div class="font-bold">{props.post.title}</div>
+      <div class="bg-slate-400">Media here</div>
+      <div class="flex flex-row justify-end py-2">
+        <For each={props.post.all_awardings}>
+          {(item) => <img src={item.resized_icons.find((size) => size.width === 16)?.url} />}
+        </For>
+      </div>
     </div>
   )
 }
