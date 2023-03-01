@@ -10,6 +10,7 @@ type SubredditsContextState = [
   Accessor<string[]>,
   {
     addSubreddit: (subreddit: string) => void;
+    addSubreddits: (subreddits: string[]) => void;
     removeSubreddit: (index: number) => void;
   }
 ];
@@ -25,6 +26,12 @@ export function SubredditProvider(props: SubredditProviderProps) {
     {
       addSubreddit(subreddit: string) {
         setSubreddits((prev) => [...prev, subreddit]);
+      },
+      addSubreddits(subreddits: string[]) {
+        setSubreddits((prev) => {
+          document.cookie = `SUBREDDITS=${JSON.stringify([...prev, ...subreddits])}`
+          return [...prev, ...subreddits]
+        });
       },
       removeSubreddit(index: number) {
         setSubreddits((prev) => [...prev].splice(index, 1));

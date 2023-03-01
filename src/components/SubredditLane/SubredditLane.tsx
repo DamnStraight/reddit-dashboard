@@ -1,5 +1,5 @@
-import { createResource, createSignal, For } from "solid-js";
 import { PostRequest, RedditPost } from "@/types/Reddit";
+import { createResource, createSignal, Index } from "solid-js";
 import Post from "../Post/Post";
 import Spinner from "../Spinner/Spinner";
 
@@ -93,8 +93,13 @@ function SubredditLane(props: SubredditLaneProps) {
 
   return (
     <div class="relative max-h-screen h-full min-w-[450px] w-[450px] bg-slate-400 flex flex-col">
-      <div class="w-full bg-slate-600 text-3xl font-bold text-center py-2">
-        {`r/${props.subreddit}`}
+      <div class="w-full bg-slate-600 text-3xl font-bold py-2 flex justify-between px-4">
+        <div>{`r/${props.subreddit}`}</div>
+        <select class="border-sm " value={sortBy()} onChange={(e) => setSortBy(e.currentTarget.value as SortBy)}>
+          <option value="hot">Hot</option>
+          <option value="new">New</option>
+          <option value="top">Top</option>
+        </select>
       </div>
       {posts.loading && <Spinner />}
       <div
@@ -102,7 +107,7 @@ function SubredditLane(props: SubredditLaneProps) {
         class=" w-full h-full overflow-y-auto space-y-4 p-2"
         onScroll={scrollHandler}
       >
-        <For each={posts()?.data}>{(item) => <Post post={item} />}</For>
+        <Index each={posts()?.data}>{(item) => <Post post={item()} />}</Index>
       </div>
     </div>
   );

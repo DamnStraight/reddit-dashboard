@@ -1,11 +1,22 @@
 import SubredditSearchModal from "@/components/SubredditSearchModal/SubredditSearchModal";
 import { useSubreddits } from "@/context/SubredditProvider";
-import { createSignal, For } from "solid-js";
+import { createSignal, For, onMount } from "solid-js";
 import styles from "./Navbar.module.css";
 
 function Navbar() {
   const [isOpen, setIsOpen] = createSignal<boolean>(false);
-  const [subreddits, { addSubreddit }] = useSubreddits();
+  const [subreddits, { addSubreddit, addSubreddits }] = useSubreddits();
+
+  onMount(() => {
+    const maybeSubreddits = document.cookie
+      .split("; ")
+      .find((row) => row.startsWith("SUBREDDITS="))
+      ?.split("=")[1];
+
+    if (maybeSubreddits) {
+      addSubreddits(JSON.parse(maybeSubreddits));
+    }
+  });
 
   return (
     <section>
