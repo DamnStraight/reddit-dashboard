@@ -4,10 +4,12 @@ import {
   createSignal,
   For,
   JSX,
+  onMount,
   ParentProps,
   Show,
 } from "solid-js";
 import { Portal } from "solid-js/web";
+import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 type ModalProps = {
   open: boolean;
@@ -32,7 +34,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
     const response = await fetch(
       `https://www.reddit.com/search.json?q=${encodeURI(
         redditSearch()
-      )}&type=sr&include_over_18=true&limit=10`
+      )}&type=sr&include_over_18=false&limit=10`
     );
 
     const json = await response.json();
@@ -57,37 +59,40 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
     }
   };
 
+  onMount(() => {
+    // ? ref will be undefined unless we pass it in the mount function
+    useOutsideClick(searchInput, () => props.onOpenChange(false));
+  })
+
   return (
-    <Show when={props.open} fallback={null}>
-      <Portal>
-        <div class="w-[500px] p-2 bg-gray-700 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden">
-          <input
-            ref={searchInput}
-            class="h-14 rounded-md p-2 font-bold text-xl"
-            value={redditSearch()}
-            onInput={(e) => onInputChange(e.currentTarget.value)}
-            placeholder="Search for subreddit"
-            // onFocusOut={() => props.onOpenChange(false)}
-            onKeyDown={keyHandler}
-          />
-          <div class="space-y-2 pt-2:first-child">
-            <For each={subreddits()}>
-              {(item, index) => (
-                <div
-                  class="text-lg font-bold px-4 py-2 my-2 rounded-md bg-slate-200 hover:bg-slate-300 cursor-pointer"
-                  onClick={() => {
-                    props.onAdd(subreddits()[index()]);
-                    props.onOpenChange(false);
-                  }}
-                >
-                  {item}
-                </div>
-              )}
-            </For>
-          </div>
+    <Portal>
+      <div class="w-[500px] p-2 bg-gray-800 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden">
+        <input
+          ref={searchInput}
+          class="h-14 rounded-md p-2 font-bold text-xl"
+          value={redditSearch()}
+          onInput={(e) => onInputChange(e.currentTarget.value)}
+          placeholder="Search for subreddit"
+          // onFocusOut={() => props.onOpenChange(false)}
+          onKeyDown={keyHandler}
+        />
+        <div class="space-y-2 pt-2:first-child">
+          <For each={subreddits()}>
+            {(item, index) => (
+              <div
+                class="text-lg font-bold px-4 py-2 my-2 h-14 rounded-md bg-slate-200 hover:bg-slate-300 cursor-pointer flex flex-col justify-center"
+                onClick={() => {
+                  props.onAdd(subreddits()[index()]);
+                  props.onOpenChange(false);
+                }}
+              >
+                {item}
+              </div>
+            )}
+          </For>
         </div>
-      </Portal>
-    </Show>
+      </div>
+    </Portal>
   );
 }
 
