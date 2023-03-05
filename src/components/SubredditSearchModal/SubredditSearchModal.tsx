@@ -22,6 +22,12 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
   const [subreddits, setSubreddits] = createSignal<string[]>([]);
 
   let searchInput: HTMLInputElement | undefined;
+  let searchWrapper: HTMLDivElement | undefined;
+
+  onMount(() => {
+    // ? ref will be undefined unless we pass it in the mount function
+    useOutsideClick(searchWrapper, () => props.onOpenChange(false));
+  });
 
   createEffect(() => {
     // When open changes to true, set focus to input
@@ -59,14 +65,9 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
     }
   };
 
-  onMount(() => {
-    // ? ref will be undefined unless we pass it in the mount function
-    useOutsideClick(searchInput, () => props.onOpenChange(false));
-  })
-
   return (
     <Portal>
-      <div class="w-[500px] p-2 bg-gray-800 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden">
+      <div ref={searchWrapper} class="w-[450px] p-2 bg-gray-800 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden">
         <input
           ref={searchInput}
           class="h-14 rounded-md p-2 font-bold text-xl"
@@ -80,7 +81,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
           <For each={subreddits()}>
             {(item, index) => (
               <div
-                class="text-lg font-bold px-4 py-2 my-2 h-14 rounded-md bg-slate-200 hover:bg-slate-300 cursor-pointer flex flex-col justify-center"
+                class="text-lg font-bold px-4 py-2 my-2 h-12 rounded-md bg-slate-100 hover:bg-slate-300 cursor-pointer flex flex-col justify-center"
                 onClick={() => {
                   props.onAdd(subreddits()[index()]);
                   props.onOpenChange(false);
