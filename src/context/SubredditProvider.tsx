@@ -25,7 +25,10 @@ export function SubredditProvider(props: SubredditProviderProps) {
     subreddits,
     {
       addSubreddit(subreddit: string) {
-        setSubreddits((prev) => [...prev, subreddit]);
+        setSubreddits((prev) => {
+          document.cookie = `SUBREDDITS=${JSON.stringify([...prev, subreddit])}`
+          return [...prev, subreddit]
+        });
       },
       addSubreddits(subreddits: string[]) {
         setSubreddits((prev) => {
