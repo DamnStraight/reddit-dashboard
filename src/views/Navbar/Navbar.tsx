@@ -3,10 +3,13 @@ import { useSubreddits } from "@/context/SubredditProvider";
 import { createSignal, For, onMount, Show } from "solid-js";
 import useKeyListener from "../../hooks/useKeyListener";
 import styles from "./Navbar.module.css";
+import { ImPlus } from "solid-icons/im";
+import { FaSolidXmark } from "solid-icons/fa";
 
 function Navbar() {
   const [isOpen, setIsOpen] = createSignal<boolean>(false);
-  const [subreddits, { addSubreddit, addSubreddits, removeSubreddit }] = useSubreddits();
+  const [subreddits, { addSubreddit, addSubreddits, removeSubreddit }] =
+    useSubreddits();
 
   useKeyListener(handleKeyDown);
 
@@ -22,7 +25,7 @@ function Navbar() {
   });
 
   function handleKeyDown(event: any) {
-    if ((event.metaKey || event.ctrlKey) && event.code === 'KeyK') {
+    if ((event.metaKey || event.ctrlKey) && event.code === "KeyK") {
       setIsOpen((prev) => !prev);
     }
   }
@@ -40,11 +43,15 @@ function Navbar() {
       </Show>
 
       <div class="relative w-full px-4 py-2 bg-zinc-900 flex items-center space-x-2 text-white">
-        <div>Reddeck</div>
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
-            <div class={`${styles["subreddit-icon"]} font-bold text-2xl`} onClick={() => removeSubreddit(i())}>
-              <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>X</div>
+            <div
+              class={`${styles["subreddit-icon"]} font-bold text-2xl`}
+              onClick={() => removeSubreddit(i())}
+            >
+              <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>
+                <FaSolidXmark />
+              </div>
               {item.charAt(0).toUpperCase()}
             </div>
           )}
@@ -53,7 +60,7 @@ function Navbar() {
           class={`${styles["btn-add-subreddit"]}`}
           onClick={() => setIsOpen(true)}
         >
-          +
+          <ImPlus />
         </div>
       </div>
     </section>
