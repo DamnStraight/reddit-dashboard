@@ -33,6 +33,11 @@ export interface RedditPost {
   };
 }
 
+export interface Subreddit {
+  icon_img?: string;
+  display_name: string;
+}
+
 export interface Award {
   icon_url: string;
   resized_icons: AwardIcon[];
@@ -45,3 +50,5 @@ export interface AwardIcon {
 }
 
 export type PostRequest = ResponseBody<RedditPost>;
+
+export type SubredditRequest = ResponseBody<Subreddit>;

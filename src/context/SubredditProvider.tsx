@@ -5,12 +5,13 @@ import {
   ParentProps,
   useContext,
 } from "solid-js";
+import { SubredditData } from "../components/SubredditSearchModal/SubredditSearchModal";
 
 type SubredditsContextState = [
-  Accessor<string[]>,
+  Accessor<SubredditData[]>,
   {
-    addSubreddit: (subreddit: string) => void;
-    addSubreddits: (subreddits: string[]) => void;
+    addSubreddit: (subreddit: SubredditData) => void;
+    addSubreddits: (subreddits: SubredditData[]) => void;
     removeSubreddit: (index: number) => void;
   }
 ];
@@ -20,28 +21,34 @@ type SubredditProviderProps = {} & ParentProps;
 const SubredditContext = createContext<SubredditsContextState>();
 
 export function SubredditProvider(props: SubredditProviderProps) {
-  const [subreddits, setSubreddits] = createSignal<string[]>([]);
+  const [subreddits, setSubreddits] = createSignal<SubredditData[]>([]);
   const subredditManager = [
     subreddits,
     {
-      addSubreddit(subreddit: string) {
+      addSubreddit(subreddit: SubredditData) {
         setSubreddits((prev) => {
-          document.cookie = `SUBREDDITS=${JSON.stringify([...prev, subreddit])}`
-          return [...prev, subreddit]
+          document.cookie = `SUBREDDITS=${JSON.stringify([
+            ...prev,
+            subreddit,
+          ])}`;
+          return [...prev, subreddit];
         });
       },
-      addSubreddits(subreddits: string[]) {
+      addSubreddits(subreddits: SubredditData[]) {
         setSubreddits((prev) => {
-          document.cookie = `SUBREDDITS=${JSON.stringify([...prev, ...subreddits])}`
-          return [...prev, ...subreddits]
+          document.cookie = `SUBREDDITS=${JSON.stringify([
+            ...prev,
+            ...subreddits,
+          ])}`;
+          return [...prev, ...subreddits];
         });
       },
       removeSubreddit(index: number) {
         setSubreddits((prev) => {
-         let result = [...prev];
-         result.splice(index, 1);
-         document.cookie = `SUBREDDITS=${JSON.stringify(result)}`
-         return result;
+          let result = [...prev];
+          result.splice(index, 1);
+          document.cookie = `SUBREDDITS=${JSON.stringify(result)}`;
+          return result;
         });
       },
     },

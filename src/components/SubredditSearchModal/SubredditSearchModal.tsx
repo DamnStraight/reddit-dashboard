@@ -1,3 +1,5 @@
+import { useOutsideClick } from "@/hooks/useOutsideClick";
+import { SubredditRequest } from "@/types/Reddit";
 import { debounce } from "@solid-primitives/scheduled";
 import {
   createEffect,
@@ -6,20 +8,23 @@ import {
   JSX,
   onMount,
   ParentProps,
-  Show,
 } from "solid-js";
 import { Portal } from "solid-js/web";
-import { useOutsideClick } from "../../hooks/useOutsideClick";
 
 type ModalProps = {
   open: boolean;
   onOpenChange: (state: boolean) => void;
-  onAdd: (subreddit: string) => void;
+  onAdd: (subreddit: SubredditData) => void;
 } & ParentProps;
+
+export type SubredditData = {
+  name: string;
+  icon?: string;
+};
 
 function SubredditSearchModal(props: ModalProps): JSX.Element {
   const [redditSearch, setRedditSearch] = createSignal<string>("");
-  const [subreddits, setSubreddits] = createSignal<string[]>([]);
+  const [subreddits, setSubreddits] = createSignal<SubredditData[]>([]);
 
   let searchInput: HTMLInputElement | undefined;
   let searchWrapper: HTMLDivElement | undefined;
@@ -43,11 +48,15 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
       )}&type=sr&include_over_18=false&limit=10`
     );
 
-    const json = await response.json();
+    const json: SubredditRequest = await response.json();
 
-    const subreddits = json.data?.children.map((item: any) => {
-      return item.data.display_name;
-    });
+    const subreddits = json.data?.children.map(
+      (item) =>
+        ({
+          name: item.data.display_name,
+          icon: item.data.icon_img,
+        } satisfies SubredditData)
+    );
 
     if (subreddits) {
       setSubreddits(subreddits);
@@ -92,7 +101,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
                   props.onOpenChange(false);
                 }}
               >
-                {`/r/${item}`}
+                {`/r/${item.name}`}
               </div>
             )}
           </For>

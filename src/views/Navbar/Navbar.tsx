@@ -46,13 +46,14 @@ function Navbar() {
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
             <div
-              class={`${styles["subreddit-icon"]} font-bold text-2xl`}
+              class={`${styles["subreddit-icon"]} font-bold text-2xl overflow-hidden`}
               onClick={() => removeSubreddit(i())}
             >
               <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>
                 <FaSolidXmark />
               </div>
-              {item.charAt(0).toUpperCase()}
+              <img src={item.icon} />
+              {/* {item.name.charAt(0).toUpperCase()} */}
             </div>
           )}
         </For>

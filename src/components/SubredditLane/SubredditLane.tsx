@@ -2,10 +2,11 @@ import { PostRequest, RedditPost } from "@/types/Reddit";
 import { createResource, createSignal, Index, Show } from "solid-js";
 import Post from "../Post/Post";
 import Spinner from "../Spinner/Spinner";
+import { SubredditData } from "../SubredditSearchModal/SubredditSearchModal";
 import styles from "./SubredditLane.module.css";
 
 type SubredditLaneProps = {
-  subreddit: string;
+  subreddit: SubredditData;
 };
 
 type SortBy = "hot" | "top" | "new";
@@ -34,7 +35,6 @@ const fetchPosts = async ({ subreddit, sortBy }: FetchPostParams) => {
 
 type PostData = { data: RedditPost[]; after: string };
 
-// TODO Add types for reddit fetch and createResource
 function SubredditLane(props: SubredditLaneProps) {
   const [sortBy, setSortBy] = createSignal<SortBy>("hot");
   const [isLoading, setIsLoading] = createSignal(false);
@@ -42,7 +42,7 @@ function SubredditLane(props: SubredditLaneProps) {
   let scrollableDiv: HTMLDivElement | undefined;
 
   const [posts, { mutate }] = createResource<PostData, FetchPostParams>(
-    () => ({ subreddit: props.subreddit, sortBy: sortBy() }),
+    () => ({ subreddit: props.subreddit.name, sortBy: sortBy() }),
     fetchPosts
   );
 
@@ -68,7 +68,7 @@ function SubredditLane(props: SubredditLaneProps) {
 
     const response = await fetch(
       `https://www.reddit.com/r/${
-        props.subreddit
+        props.subreddit.name
       }/${sortBy()}/.json?raw_json=1&after=${after}`
     );
 
@@ -97,7 +97,7 @@ function SubredditLane(props: SubredditLaneProps) {
   return (
     <div class="relative h-full max-h-[calc(100vh_-_75px)] min-w-[450px] w-[450px] bg-zinc-600 flex flex-col my-2 ml-2 rounded-md border-[1px] border-zinc-500 overflow-hidden">
       <div class="w-full bg-zinc-800 text-3xl font-bold py-2 flex justify-between px-4 text-white">
-        <div>{`r/${props.subreddit}`}</div>
+        <div>{`r/${props.subreddit.name}`}</div>
         <select
           class={`${styles.select} border-sm text-black overflow-hidden`}
           value={sortBy()}
