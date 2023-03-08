@@ -7,7 +7,8 @@ type PostCardProps = {
 };
 
 function Post(props: PostCardProps) {
-  const hasMedia = props.post.preview !== undefined && props.post.preview.images.length > 0;
+  const hasMedia =
+    props.post.preview !== undefined && props.post.preview.images.length > 0;
   const isNSFW = props.post.thumbnail === "nsfw";
   let src = undefined;
 
@@ -16,7 +17,12 @@ function Post(props: PostCardProps) {
   }
 
   return (
-    <div class="w-full bg-slate-100 hover:bg-slate-200 transition rounded-md shadow-md p-2 space-y-2 border-zinc-900/75 border-[1px]">
+    <div
+      onClick={() =>
+        window.open(`https://old.reddit.com${props.post.permalink}`)
+      }
+      class="w-full bg-slate-100 hover:bg-slate-200 transition rounded-md shadow-md p-2 space-y-2 border-zinc-900/75 border-[1px] cursor-pointer"
+    >
       <div class="font-bold">{props.post.title}</div>
       <Show when={hasMedia} fallback={null}>
         <div class="bg-zinc-500 flex justify-center rounded-md overflow-hidden">

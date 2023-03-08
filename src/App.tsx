@@ -7,8 +7,10 @@ import Navbar from "./views/Navbar/Navbar";
 const App: Component = () => {
   return (
     <SubredditProvider>
-      <Navbar />
-      <Dashboard />
+      <div class="flex flex-nowrap">
+        <Navbar />
+        <Dashboard />
+      </div>
     </SubredditProvider>
   );
 };

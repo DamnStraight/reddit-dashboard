@@ -14,6 +14,8 @@ function Navbar() {
   useKeyListener(handleKeyDown);
 
   onMount(() => {
+    if (subreddits().length > 0) return;
+
     const maybeSubreddits = document.cookie
       .split("; ")
       .find((row) => row.startsWith("SUBREDDITS="))
@@ -31,7 +33,7 @@ function Navbar() {
   }
 
   return (
-    <section>
+    <section class="flex overflow-auto">
       <Show when={isOpen()} fallback={null}>
         <SubredditSearchModal
           open={isOpen()}
@@ -42,18 +44,22 @@ function Navbar() {
         />
       </Show>
 
-      <div class="relative w-full px-4 py-2 bg-zinc-900 flex items-center space-x-2 text-white border-b-[1px] border-zinc-600">
+      <div class="sticky flex-grow-0 z-10 self-start h-screen w-14 px-4 py-2 bg-zinc-900 flex flex-col items-center space-y-2 text-white border-r-[1px] border-zinc-600">
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
             <div
-              class={`${styles["subreddit-icon"]} font-bold text-2xl overflow-hidden`}
+              class={`${styles["subreddit-icon"]} font-bold text-2xl overflow-hidden border-2 border-zinc-600`}
               onClick={() => removeSubreddit(i())}
             >
               <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>
                 <FaSolidXmark />
               </div>
-              <img src={item.icon} />
-              {/* {item.name.charAt(0).toUpperCase()} */}
+              <Show
+                when={!!item.icon}
+                fallback={item.name.charAt(0).toUpperCase()}
+              >
+                <img src={item.icon} />
+              </Show>
             </div>
           )}
         </For>
