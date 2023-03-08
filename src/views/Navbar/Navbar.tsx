@@ -42,7 +42,7 @@ function Navbar() {
         />
       </Show>
 
-      <div class="relative w-full px-4 py-2 bg-zinc-900 flex items-center space-x-2 text-white">
+      <div class="relative w-full px-4 py-2 bg-zinc-900 flex items-center space-x-2 text-white border-b-[1px] border-zinc-600">
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
             <div

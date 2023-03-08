@@ -1,8 +1,8 @@
 import { PostRequest, RedditPost } from "@/types/Reddit";
-import { createResource, createSignal, Index } from "solid-js";
+import { createResource, createSignal, Index, Show } from "solid-js";
 import Post from "../Post/Post";
 import Spinner from "../Spinner/Spinner";
-import styles from './SubredditLane.module.css';
+import styles from "./SubredditLane.module.css";
 
 type SubredditLaneProps = {
   subreddit: string;
@@ -37,6 +37,7 @@ type PostData = { data: RedditPost[]; after: string };
 // TODO Add types for reddit fetch and createResource
 function SubredditLane(props: SubredditLaneProps) {
   const [sortBy, setSortBy] = createSignal<SortBy>("hot");
+  const [isLoading, setIsLoading] = createSignal(false);
 
   let scrollableDiv: HTMLDivElement | undefined;
 
@@ -50,9 +51,8 @@ function SubredditLane(props: SubredditLaneProps) {
       const { scrollHeight, clientHeight, scrollTop } = scrollableDiv;
 
       // container is scrolled completely to the bottom
-      if (scrollHeight - clientHeight - scrollTop === 0) {
+      if (scrollHeight - clientHeight - scrollTop <= 0) {
         if (!posts()) return;
-
         fetchNextPage();
       }
     }
@@ -63,6 +63,7 @@ function SubredditLane(props: SubredditLaneProps) {
 
     if (!currentPosts) return;
 
+    setIsLoading(true);
     const { after } = currentPosts;
 
     const response = await fetch(
@@ -90,13 +91,18 @@ function SubredditLane(props: SubredditLaneProps) {
         data: [...prev.data, ...nextPages],
       };
     });
+    setIsLoading(false);
   };
 
   return (
-    <div class="relative h-full max-h-[calc(100vh_-_72px)] min-w-[450px] w-[450px] bg-zinc-600 flex flex-col my-2 ml-2 rounded-md border-[1px] border-zinc-500 overflow-hidden">
+    <div class="relative h-full max-h-[calc(100vh_-_75px)] min-w-[450px] w-[450px] bg-zinc-600 flex flex-col my-2 ml-2 rounded-md border-[1px] border-zinc-500 overflow-hidden">
       <div class="w-full bg-zinc-800 text-3xl font-bold py-2 flex justify-between px-4 text-white">
         <div>{`r/${props.subreddit}`}</div>
-        <select class={`${styles.select} border-sm text-black overflow-hidden`} value={sortBy()} onChange={(e) => setSortBy(e.currentTarget.value as SortBy)}>
+        <select
+          class={`${styles.select} border-sm text-black overflow-hidden`}
+          value={sortBy()}
+          onChange={(e) => setSortBy(e.currentTarget.value as SortBy)}
+        >
           <option value="hot">Hot</option>
           <option value="new">New</option>
           <option value="top">Top</option>
@@ -110,6 +116,11 @@ function SubredditLane(props: SubredditLaneProps) {
       >
         <Index each={posts()?.data}>{(item) => <Post post={item()} />}</Index>
       </div>
+      <Show when={isLoading()} fallback={null}>
+        <div class="absolute bottom-0 w-full h-12 bg-zinc-800 py-10">
+          <Spinner />
+        </div>
+      </Show>
     </div>
   );
 }

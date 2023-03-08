@@ -45,9 +45,9 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
     const json = await response.json();
 
-    const subreddits = json.data?.children.map(
-      (item: any) => item.data.display_name
-    );
+    const subreddits = json.data?.children.map((item: any) => {
+      return item.data.display_name;
+    });
 
     if (subreddits) {
       setSubreddits(subreddits);
@@ -69,7 +69,10 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
   return (
     <Portal>
-      <div ref={searchWrapper} class="w-[450px] p-2 bg-zinc-700 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden border-[1px] border-zinc-500">
+      <div
+        ref={searchWrapper}
+        class="w-[450px] p-2 bg-zinc-700 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden border-[1px] border-zinc-500"
+      >
         <input
           ref={searchInput}
           class="h-14 rounded-md p-2 font-bold text-xl"

@@ -20,7 +20,7 @@
 
 .btn-add-subreddit {
   @apply h-10 w-10 rounded-full 
-    bg-white hover:bg-black text-black hover:text-white
+    bg-white hover:bg-zinc-700 text-black hover:text-white
     flex items-center justify-center
     cursor-pointer;
 }
