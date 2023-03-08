@@ -6,7 +6,7 @@ import styles from "./Navbar.module.css";
 
 function Navbar() {
   const [isOpen, setIsOpen] = createSignal<boolean>(false);
-  const [subreddits, { addSubreddit, addSubreddits }] = useSubreddits();
+  const [subreddits, { addSubreddit, addSubreddits, removeSubreddit }] = useSubreddits();
 
   useKeyListener(handleKeyDown);
 
@@ -39,11 +39,11 @@ function Navbar() {
         />
       </Show>
 
-      <div class="relative w-full px-4 py-2 bg-red-300 flex items-center space-x-2">
+      <div class="relative w-full px-4 py-2 bg-zinc-900 flex items-center space-x-2 text-white">
         <div>Reddeck</div>
         <For each={subreddits()} fallback={null}>
-          {(item) => (
-            <div class={`${styles["subreddit-icon"]} font-bold text-2xl`}>
+          {(item, i) => (
+            <div class={`${styles["subreddit-icon"]} font-bold text-2xl`} onClick={() => removeSubreddit(i())}>
               <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>X</div>
               {item.charAt(0).toUpperCase()}
             </div>

@@ -37,7 +37,12 @@ export function SubredditProvider(props: SubredditProviderProps) {
         });
       },
       removeSubreddit(index: number) {
-        setSubreddits((prev) => [...prev].splice(index, 1));
+        setSubreddits((prev) => {
+         let result = [...prev];
+         result.splice(index, 1);
+         document.cookie = `SUBREDDITS=${JSON.stringify(result)}`
+         return result;
+        });
       },
     },
   ] satisfies SubredditsContextState;

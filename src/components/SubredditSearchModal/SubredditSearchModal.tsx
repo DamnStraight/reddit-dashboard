@@ -45,11 +45,13 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
     const json = await response.json();
 
-    const subreddits = json.data.children.map(
+    const subreddits = json.data?.children.map(
       (item: any) => item.data.display_name
     );
 
-    setSubreddits(subreddits);
+    if (subreddits) {
+      setSubreddits(subreddits);
+    }
   };
 
   const debounceInput = debounce(querySubreddits, 400);
@@ -67,7 +69,7 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
 
   return (
     <Portal>
-      <div ref={searchWrapper} class="w-[450px] p-2 bg-gray-800 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden">
+      <div ref={searchWrapper} class="w-[450px] p-2 bg-zinc-700 shadow-lg fixed top-[25%] flex flex-col left-[calc(50%_-_250px)] rounded-md overflow-hidden border-[1px] border-zinc-500">
         <input
           ref={searchInput}
           class="h-14 rounded-md p-2 font-bold text-xl"
@@ -81,13 +83,13 @@ function SubredditSearchModal(props: ModalProps): JSX.Element {
           <For each={subreddits()}>
             {(item, index) => (
               <div
-                class="text-lg font-bold px-4 py-2 my-2 h-12 rounded-md bg-slate-100 hover:bg-slate-300 cursor-pointer flex flex-col justify-center"
+                class="text-lg font-bold px-4 py-2 my-2 h-14 rounded-md bg-slate-100 hover:bg-slate-300 cursor-pointer flex flex-col justify-center"
                 onClick={() => {
                   props.onAdd(subreddits()[index()]);
                   props.onOpenChange(false);
                 }}
               >
-                {item}
+                {`/r/${item}`}
               </div>
             )}
           </For>

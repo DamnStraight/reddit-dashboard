@@ -2,6 +2,7 @@ import { PostRequest, RedditPost } from "@/types/Reddit";
 import { createResource, createSignal, Index } from "solid-js";
 import Post from "../Post/Post";
 import Spinner from "../Spinner/Spinner";
+import styles from './SubredditLane.module.css';
 
 type SubredditLaneProps = {
   subreddit: string;
@@ -92,10 +93,10 @@ function SubredditLane(props: SubredditLaneProps) {
   };
 
   return (
-    <div class="relative max-h-screen h-full min-w-[450px] w-[450px] bg-slate-400 flex flex-col">
-      <div class="w-full bg-slate-600 text-3xl font-bold py-2 flex justify-between px-4">
+    <div class="relative h-full max-h-[calc(100vh_-_72px)] min-w-[450px] w-[450px] bg-zinc-600 flex flex-col my-2 ml-2 rounded-md border-[1px] border-zinc-500 overflow-hidden">
+      <div class="w-full bg-zinc-800 text-3xl font-bold py-2 flex justify-between px-4 text-white">
         <div>{`r/${props.subreddit}`}</div>
-        <select class="border-sm " value={sortBy()} onChange={(e) => setSortBy(e.currentTarget.value as SortBy)}>
+        <select class={`${styles.select} border-sm text-black overflow-hidden`} value={sortBy()} onChange={(e) => setSortBy(e.currentTarget.value as SortBy)}>
           <option value="hot">Hot</option>
           <option value="new">New</option>
           <option value="top">Top</option>
@@ -104,7 +105,7 @@ function SubredditLane(props: SubredditLaneProps) {
       {posts.loading && <Spinner />}
       <div
         ref={scrollableDiv}
-        class=" w-full h-full overflow-y-auto space-y-4 p-2"
+        class=" w-full h-full overflow-y-auto space-y-2 p-2"
         onScroll={scrollHandler}
       >
         <Index each={posts()?.data}>{(item) => <Post post={item()} />}</Index>

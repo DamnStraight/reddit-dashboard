@@ -26,6 +26,11 @@ export interface RedditPost {
   is_video: boolean;
   link_flair_richtext: { e: string; t: string }[];
   media: any;
+  preview: {
+    images: Array<{
+      resolutions: Array<{ url: string }>;
+    }>;
+  };
 }
 
 export interface Award {
