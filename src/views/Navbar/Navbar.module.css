@@ -1,6 +1,6 @@
 .subreddit-icon {
   @apply relative
-    h-10 w-10 rounded-full 
+    h-14 w-14 rounded-full 
     bg-white text-black
     flex items-center justify-center
     cursor-default;
@@ -19,7 +19,7 @@
 }
 
 .btn-add-subreddit {
-  @apply h-10 w-10 rounded-full 
+  @apply h-14 w-14 rounded-full 
     bg-white hover:bg-zinc-700 text-black hover:text-white
     flex items-center justify-center
     cursor-pointer;

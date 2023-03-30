@@ -13,7 +13,7 @@ function Post(props: PostCardProps) {
   let src = undefined;
 
   if (hasMedia) {
-    src = props.post.preview.images[0]?.resolutions[0]?.url;
+    src = props.post.preview.images[0]?.resolutions[1]?.url;
   }
 
   return (

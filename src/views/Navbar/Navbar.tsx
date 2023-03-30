@@ -44,11 +44,11 @@ function Navbar() {
         />
       </Show>
 
-      <div class="sticky flex-grow-0 z-10 self-start h-screen w-14 px-4 py-2 bg-zinc-900 flex flex-col items-center space-y-2 text-white border-r-[1px] border-zinc-600">
+      <div class="sticky flex-grow-0 z-10 self-start h-screen w-14 px-10 py-4 bg-zinc-900 flex flex-col items-center space-y-2 text-white">
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
             <div
-              class={`${styles["subreddit-icon"]} font-bold text-2xl overflow-hidden border-2 border-zinc-600`}
+              class={`${styles["subreddit-icon"]} font-bold text-2xl overflow-hidden`}
               onClick={() => removeSubreddit(i())}
             >
               <div class={`${styles["subreddit-icon-overlay"]} text-xl`}>
