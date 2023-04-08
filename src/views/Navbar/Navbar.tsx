@@ -44,7 +44,7 @@ function Navbar() {
         />
       </Show>
 
-      <div class="sticky flex-grow-0 z-10 self-start h-screen w-14 px-10 py-4 bg-zinc-900 flex flex-col items-center space-y-2 text-white">
+      <div class="sticky flex-grow-0 z-10 self-start h-screen w-14 px-10 py-4 bg-zinc-900 flex flex-col items-center space-y-3 text-white">
         <For each={subreddits()} fallback={null}>
           {(item, i) => (
             <div

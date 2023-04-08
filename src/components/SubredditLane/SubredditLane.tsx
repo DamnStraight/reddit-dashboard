@@ -95,7 +95,7 @@ function SubredditLane(props: SubredditLaneProps) {
   };
 
   return (
-    <div class="relative h-full max-h-[calc(100vh_-_16px)] min-w-[450px] w-[450px] bg-zinc-600 flex flex-col my-2 ml-2 rounded-md border-[1px] border-zinc-500 overflow-hidden">
+    <div class="relative h-full max-h-[calc(100vh_-_16px)] min-w-[450px] w-[450px] bg-zinc-800 flex flex-col my-3 ml-3 rounded-xl overflow-hidden shadow-md">
       <div class="w-full bg-zinc-800 text-3xl font-bold py-2 flex justify-between px-4 text-white">
         <div>{`r/${props.subreddit.name}`}</div>
         <select

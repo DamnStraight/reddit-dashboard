@@ -14,7 +14,7 @@ function Dashboard() {
   });
 
   return (
-    <div class="z-0 max-h-screen flex-1 flex-grow bg-zinc-800 flex flex-row space-x-2 overflow-y-auto">
+    <div class="z-0 max-h-screen flex-1 flex-grow bg-zinc-700 flex flex-row space-x-2 overflow-y-auto">
       {subreddits().length === 0 ? (
         <div class="flex flex-grow bg-red justify-center items-center text-white space-x-1 opacity-60">
           <div class="flex flex-col space-y-4">
