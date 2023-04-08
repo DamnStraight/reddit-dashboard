@@ -15,10 +15,10 @@ function Dashboard() {
 
   return (
     <div class="z-0 max-h-screen flex-1 flex-grow bg-zinc-800 flex flex-row space-x-2 overflow-y-auto">
-      {subreddits.length === 0 ? (
+      {subreddits().length === 0 ? (
         <div class="flex flex-grow bg-red justify-center items-center text-white space-x-1 opacity-60">
           <div class="flex flex-col space-y-4">
-            <div class="text-center">Nothing here... Add a subreddit!</div>
+            <div class="text-center">Add a Subreddit!</div>
             <div class="flex">
               <div class="rounded-md p-4 border-white border-1 border-[1px]">
                 {isMac() ? <TbCommand /> : <ImCtrl />}
